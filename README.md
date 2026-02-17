@@ -1,12 +1,15 @@
 <p align="center">
-  <img src="assets/logo.png" alt="BiMoType-Ternary Logo" width="300">
+  <img width="128" height="111" alt="logo" src="https://github.com/user-attachments/assets/875e9ac7-6414-44d2-a571-cf385117cff0" />
+
 </p>
 
 # BiMoType-Ternary: The Metriplectic Quantum Framework
 
 > **Bridging Ternary Topology, Nuclear Physics, and Quantum Cryptography**
 
-[![PyPI version](https://img.shields.io/pypi/v/bimotype-ternary.svg)](https://pypi.org/project/bimotype-ternary/)
+
+
+![Quantum](https://img.shields.io/badge/Smopsys-Software-black)
 [![Tests](https://img.shields.io/badge/tests-36%2F36%20passing-brightgreen)](tests/)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
