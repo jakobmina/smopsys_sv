@@ -20,7 +20,7 @@ This document explains how to publish the `bimotype-ternary` package to PyPI.
 2. Navigate to "Publishing" → "Add a new publisher"
 3. Fill in:
    - **PyPI Project Name**: `bimotype-ternary`
-   - **Owner**: `yourusername` (your GitHub username)
+   - **Owner**: `jakobmina`
    - **Repository name**: `bimotype-ternary`
    - **Workflow name**: `publish.yml`
    - **Environment name**: `pypi`
