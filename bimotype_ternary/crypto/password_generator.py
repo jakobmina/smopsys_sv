@@ -76,7 +76,7 @@ class QuantumPasswordGenerator:
         
         # Mezclar con estados topológicos
         for i in range(6):  # 6 estados topológicos
-            state = self.topology_encoder.ESTADOS_TOPOLOGICOS[i]
+            state = self.topology_encoder.topology_entries[i]
             
             # Crear firma radiactiva
             sig = self.mapper.create_radioactive_signature_from_topology(state)

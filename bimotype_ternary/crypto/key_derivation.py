@@ -55,7 +55,7 @@ class QuantumKeyDerivation:
         state_idx = pwd_hash[0] % 6  # 6 estados topológicos
         
         # Obtener estado topológico
-        state = self.topology_encoder.ESTADOS_TOPOLOGICOS[state_idx]
+        state = self.topology_encoder.topology_entries[state_idx]
         
         # Crear firma radiactiva
         sig = self.mapper.create_radioactive_signature_from_topology(state)
@@ -172,7 +172,7 @@ class QuantumKeyDerivation:
         
         # Obtener estado topológico correspondiente
         state = None
-        for s in self.topology_encoder.ESTADOS_TOPOLOGICOS:
+        for s in self.topology_encoder.topology_entries:
             if s['indice'] == h7_index and s['pareja'] == h7_pair:
                 state = s
                 break

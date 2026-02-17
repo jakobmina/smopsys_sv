@@ -144,12 +144,12 @@ class QuantumEncryptor:
         pwd_hash = hashlib.sha256(password.encode()).digest()
         state_idx = pwd_hash[0] % 6
         
-        state = self.topology_encoder.ESTADOS_TOPOLOGICOS[state_idx]
+        state = self.topology_encoder.topology_entries[state_idx]
         sig = self.mapper.create_radioactive_signature_from_topology(state)
         
         metadata = {
             'isotope': sig['isotope'],
-            'decay_type': sig['decay_type'],
+            'decay_type': str(sig['decay_type']),
             'h7_index': state['indice'],
             'h7_pair': state['pareja'],
             'quantum_phase': sig['quantum_phase'],
