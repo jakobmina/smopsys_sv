@@ -85,7 +85,7 @@ A revolutionary quantum communication framework that combines **ternary topology
 
 **Dual Solution:**
 
-```
+```python
 d/dt(ψ) = {ψ, H} + [ψ, S]
          ↑          ↑
     Conservative  Dissipative
@@ -101,10 +101,14 @@ d/dt(ψ) = {ψ, H} + [ψ, S]
 ## 🚀 Key Features
 
 - ✅ **36/36 tests passing** with comprehensive coverage
-- ✅ **Ternary encoding** (-1, 0, +1) → (BETA, GAMMA, ALPHA)
-- ✅ **H7 topological conservation** (dual pairs sum to 7)
-- ✅ **Radioactive signatures** with real isotope data
-- ✅ **C code generation** for embedded systems (Smopsys Q-CORE)
+- **Ternary Topology Encoding**: 3-state encoding (-1, 0, +1) mapped to radioactive decay types (BETA, GAMMA, ALPHA)
+- **Radioactive Signatures**: Each character encoded with isotope metadata (Sr-90, Tc-99m, Pu-238)
+- **H7 Conservation**: Topological invariants ensuring `index + pair = 7`
+- **Metriplectic Dynamics**: Conservative (quantum phase) + Dissipative (radioactive decay) components
+- **Noise Resilience**: Decoder with fidelity metrics and quality assessment
+- **C Code Generation**: Optimized headers for embedded systems (Smopsys Q-CORE)
+- **🔐 Quantum Cryptography**: Password generation and file encryption using quantum entropy
+- **Modular Architecture**: Clean separation of concerns (core, topology, integration, crypto, codegen)
 - ✅ **Noise-resilient decoding** with fidelity metrics (99.98% clean, 85%+ with 10% noise)
 - ✅ **JSON serialization** for network transmission
 - ✅ **Metriplectic dynamics** (conservative + dissipative)
@@ -136,6 +140,123 @@ python -m build
 ```
 
 See [INSTALLATION.md](docs/INSTALLATION.md) for detailed instructions.
+
+---
+
+## 🔐 Quantum Cryptography
+
+BiMoType-Ternary includes a **quantum cryptography module** for secure password generation and file encryption using radioactive decay entropy and topological quantum states.
+
+### Features
+
+- **Quantum Password Generator**: Cryptographically secure passwords using radioactive decay entropy (Sr-90, Tc-99m, Pu-238)
+- **Quantum Key Derivation**: PBKDF2-HMAC-SHA512 with topology-based salts and H7 conservation
+- **Quantum Encryptor**: AES-256-GCM encryption with quantum metadata (isotope signatures, H7 indices, quantum phases)
+- **CLI Tool**: Command-line interface for password generation, file encryption/decryption, and entropy analysis
+
+### Installation
+
+```bash
+# Install with crypto support
+pip install -e ".[crypto]"
+
+# Or install all features
+pip install -e ".[all]"
+```
+
+### Quick Start
+
+#### Generate Secure Password
+
+```python
+from bimotype_ternary.crypto import QuantumPasswordGenerator
+
+gen = QuantumPasswordGenerator()
+password = gen.generate(length=24, charset='alphanumeric+symbols')
+analysis = gen.analyze_strength(password)
+
+print(f"Password: {password}")
+print(f"Entropy: {analysis['theoretical_entropy_bits']:.2f} bits")
+print(f"Strength: {analysis['strength']}")
+```
+
+#### Encrypt/Decrypt Data
+
+```python
+from bimotype_ternary.crypto import QuantumEncryptor
+
+encryptor = QuantumEncryptor()
+
+# Encrypt
+plaintext = b"Secret quantum message"
+packet = encryptor.encrypt(plaintext, password="MySecurePassword123!")
+
+print(f"Isotope: {packet.metadata['isotope']}")
+print(f"H7 index: {packet.metadata['h7_index']}")
+
+# Decrypt
+decrypted = encryptor.decrypt(packet, password="MySecurePassword123!")
+assert decrypted == plaintext
+```
+
+### CLI Usage
+
+```bash
+# Generate password
+bimotype-crypto password --length 32 --analyze
+
+# Encrypt file
+bimotype-crypto encrypt -i secret.txt -o secret.enc
+
+# Decrypt file
+bimotype-crypto decrypt -i secret.enc -o recovered.txt
+
+# Analyze password entropy
+bimotype-crypto entropy "MyPassword123!"
+```
+
+**Output Example**:
+
+```
+Password: xK9#mP2@vL5$nQ8!wR3%tY7&uI4^
+  Length: 28
+  Charset size: 94
+  Theoretical entropy: 184.42 bits
+  Actual entropy: 128.67 bits
+  Strength: EXCELLENT
+```
+
+### Encrypted Packet Structure
+
+Each encrypted file includes quantum metadata:
+
+```json
+{
+  "ciphertext": "base64_encoded_data",
+  "nonce": "base64_12_bytes",
+  "salt": "base64_32_bytes",
+  "metadata": {
+    "isotope": "Sr90",
+    "decay_type": "BETA",
+    "h7_index": 2,
+    "h7_pair": 5,
+    "quantum_phase": 1.7952,
+    "mg_polarity": 0.6667
+  },
+  "timestamp": 1708123456.789,
+  "version": "QuantumCrypto-v1.0"
+}
+```
+
+### Security Features
+
+- **Entropy Sources**: System CSPRNG + Topology states + Radioactive signatures + SHA-512 mixing
+- **Key Derivation**: PBKDF2-HMAC-SHA512 with 100,000 iterations
+- **Encryption**: AES-256-GCM (authenticated encryption)
+- **Quantum Anchoring**: Physical isotope signatures for verifiability
+
+> [!CAUTION]
+> **Educational/Research Use**: This implementation is for educational and research purposes. For production use, a professional cryptographic audit is required.
 
 ---
 
@@ -182,6 +303,60 @@ Quality:   EXCELLENT
 ---
 
 ## 🏗️ Architecture
+
+### Project Structure
+
+```
+bimotype-ternary/
+├── bimotype_ternary/          # Main package
+│   ├── core/                  # Core data structures
+│   ├── topology/              # Topology encoding
+│   ├── integration/           # BiMoType integration
+│   ├── codegen/               # C code generation
+│   ├── crypto/                # 🔐 Quantum cryptography
+│   ├── utils/                 # Utilities
+│   └── tests/                 # Test suite (36 tests)
+│
+├── examples/                  # Usage examples
+│   ├── demo.py               # BiMoType demo
+│   ├── quickstart.py         # Quick start
+│   └── crypto_demo.py        # 🔐 Crypto demo
+│
+├── docs/                      # Documentation
+│   ├── STRUCTURE.md          # Detailed structure
+│   └── INSTALLATION.md       # Installation guide
+│
+├── README.md                  # This file
+├── pyproject.toml            # Modern package config
+└── requirements.txt          # Dependencies
+```
+
+### Core Components
+
+```
+bimotype-ternary/
+├── bimotype_ternary/          # Main package
+│   ├── core/                  # Core data structures
+│   ├── topology/              # Topology encoding
+│   ├── integration/           # BiMoType integration
+│   ├── codegen/               # C code generation
+│   ├── crypto/                # 🔐 Quantum cryptography
+│   ├── utils/                 # Utilities
+│   └── tests/                 # Test suite (36 tests)
+│
+├── examples/                  # Usage examples
+│   ├── demo.py               # BiMoType demo
+│   ├── quickstart.py         # Quick start
+│   └── crypto_demo.py        # 🔐 Crypto demo
+│
+├── docs/                      # Documentation
+│   ├── STRUCTURE.md          # Detailed structure
+│   └── INSTALLATION.md       # Installation guide
+│
+├── README.md                  # This file
+├── pyproject.toml            # Modern package config
+└── requirements.txt          # Dependencies
+```
 
 ### Core Components
 

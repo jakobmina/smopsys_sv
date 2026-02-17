@@ -52,8 +52,12 @@ dev = [
 psimon = [
     "psimon-h7>=2.0.0",
 ]
+crypto = [
+    "cryptography>=41.0.0",
+    "click>=8.0.0",
+]
 all = [
-    "bimotype-ternary[dev,psimon]",
+    "bimotype-ternary[dev,psimon,crypto]",
 ]
 
 [project.urls]
@@ -65,6 +69,7 @@ Changelog = "https://github.com/yourusername/bimotype-ternary/blob/main/CHANGELO
 
 [project.scripts]
 bimotype-demo = "examples.demo:demo_ternary_bimotype"
+bimotype-crypto = "bimotype_ternary.crypto.cli:cli"
 
 [tool.setuptools]
 packages = ["bimotype_ternary"]
