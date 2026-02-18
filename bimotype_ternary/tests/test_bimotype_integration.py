@@ -12,10 +12,7 @@ Autor: Jacobo Tlacaelel Mina Rodriguez
 import pytest
 import numpy as np
 import json
-import sys
-sys.path.insert(0, '..')
-
-from bimotype_ternary_integration import (
+from bimotype_ternary.integration import (
     TopologyBiMoTypeMapper,
     TernaryBiMoTypeEncoder,
     TernaryBiMoTypeDecoder,

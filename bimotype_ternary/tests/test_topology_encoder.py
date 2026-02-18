@@ -10,10 +10,7 @@ Autor: Jacobo Tlacaelel Mina Rodriguez
 """
 
 import pytest
-import sys
-sys.path.insert(0, '..')
-
-from mod6_mejorado import (
+from bimotype_ternary.topology import (
     CodificadorTopologicoBigEndian,
     CodificadorHexadecimalBigEndian,
     generar_tabla_topologica_completa
