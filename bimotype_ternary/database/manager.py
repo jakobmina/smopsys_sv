@@ -20,16 +20,22 @@ class DatabaseManager:
         return self.SessionLocal()
 
     def create_session_record(self, session_number: int, fingerprint: str) -> SystemSession:
-        """Crea una nueva entrada de sesión en la DB."""
+        """Busca o crea una entrada de sesión en la DB para evitar errores de integridad."""
         db = self.get_session()
         try:
-            session = SystemSession(
-                session_number=session_number,
-                fingerprint=fingerprint
-            )
-            db.add(session)
-            db.commit()
-            db.refresh(session)
+            # Primero intentar buscar una sesión existente con el mismo fingerprint
+            session = db.query(SystemSession).filter(SystemSession.fingerprint == fingerprint).first()
+            
+            if not session:
+                # Si no existe, crearla
+                session = SystemSession(
+                    session_number=session_number,
+                    fingerprint=fingerprint
+                )
+                db.add(session)
+                db.commit()
+                db.refresh(session)
+            
             return session
         finally:
             db.close()

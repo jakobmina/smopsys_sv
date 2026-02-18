@@ -32,9 +32,9 @@ class TopologyBiMoTypeMapper:
     
     # Mapeo: tipo de decaimiento → isótopo radiactivo
     DECAY_TO_ISOTOPE = {
-        'BETA':  'Sr90',   # Beta minus
-        'GAMMA': 'Tc99m',  # Gamma puro
-        'ALPHA': 'Pu238'   # Alpha
+        'BETA':  'H3',   # Tritio (Decaimiento Beta)
+        'GAMMA': 'H1',   # Protio (Estable/Neutro)
+        'ALPHA': 'H2'    # Deuterio (Estable/Positivo)
     }
     
     @staticmethod

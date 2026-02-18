@@ -169,32 +169,32 @@ class PaqueteBiMoType:
 # ============================================================================
 
 RADIOACTIVE_ISOTOPES = {
-    'Sr90': {
-        'name': 'Strontium-90',
-        'Z': 38,
-        'A': 90,
+    'H1': {
+        'name': 'Protio',
+        'Z': 1,
+        'A': 1,
+        'decay_type': TipoDecaimiento.GAMMA, # Estable, mapeado a Gamma para firma neutra
+        'half_life_years': float('inf'),
+        'energy_ev': 0.0,
+        'spin': 1/2
+    },
+    'H2': {
+        'name': 'Deuterio',
+        'Z': 1,
+        'A': 2,
+        'decay_type': TipoDecaimiento.ALPHA, # Estable, mapeado a Alpha para firma positiva
+        'half_life_years': float('inf'),
+        'energy_ev': 0.0,
+        'spin': 1
+    },
+    'H3': {
+        'name': 'Tritio',
+        'Z': 1,
+        'A': 3,
         'decay_type': TipoDecaimiento.BETA,
-        'half_life_years': 28.8,
-        'energy_ev': 0.546,
-        'spin': 0
-    },
-    'Tc99m': {
-        'name': 'Technetium-99m',
-        'Z': 43,
-        'A': 99,
-        'decay_type': TipoDecaimiento.GAMMA,
-        'half_life_years': 0.25,
-        'energy_ev': 0.14,
-        'spin': 9/2
-    },
-    'Pu238': {
-        'name': 'Plutonium-238',
-        'Z': 94,
-        'A': 238,
-        'decay_type': TipoDecaimiento.ALPHA,
-        'half_life_years': 87.7,
-        'energy_ev': 5.59,
-        'spin': 0
+        'half_life_years': 12.32,
+        'energy_ev': 18600.0, # Energía máxima beta (18.6 keV)
+        'spin': 1/2
     }
 }
 

@@ -4,7 +4,7 @@ from bimotype_ternary.database.manager import DatabaseManager
 
 def run_db_demo():
     print(f"\n{'='*60}")
-    print(f" MVP DATABASE & RECURSION DEMO")
+    print(f"DATABASE & RECURSION DEMO")
     print(f"{'='*60}")
     
     # Usar una base de datos específica para el demo

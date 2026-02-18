@@ -31,9 +31,9 @@ class TestTopologyBiMoTypeMapper:
     
     def test_decay_to_isotope_mapping(self):
         """Test mapeo tipo de decaimiento → isótopo"""
-        assert TopologyBiMoTypeMapper.DECAY_TO_ISOTOPE['BETA'] == 'Sr90'
-        assert TopologyBiMoTypeMapper.DECAY_TO_ISOTOPE['GAMMA'] == 'Tc99m'
-        assert TopologyBiMoTypeMapper.DECAY_TO_ISOTOPE['ALPHA'] == 'Pu238'
+        assert TopologyBiMoTypeMapper.DECAY_TO_ISOTOPE['BETA'] == 'H3'
+        assert TopologyBiMoTypeMapper.DECAY_TO_ISOTOPE['GAMMA'] == 'H1'
+        assert TopologyBiMoTypeMapper.DECAY_TO_ISOTOPE['ALPHA'] == 'H2'
     
     def test_h7_index_to_phase(self):
         """Test conversión H7 → fase cuántica"""
@@ -60,7 +60,7 @@ class TestTopologyBiMoTypeMapper:
         
         sig = TopologyBiMoTypeMapper.create_radioactive_signature_from_topology(topology_state)
         
-        assert sig['isotope'] == 'Sr90'
+        assert sig['isotope'] == 'H3'
         assert 'quantum_phase' in sig
         assert 'mg_polarity' in sig
     
@@ -77,7 +77,7 @@ class TestTopologyBiMoTypeMapper:
         
         sig = TopologyBiMoTypeMapper.create_radioactive_signature_from_topology(topology_state)
         
-        assert sig['isotope'] == 'Tc99m'
+        assert sig['isotope'] == 'H1'
     
     def test_create_radioactive_signature_alpha(self):
         """Test creación de firma radiactiva para ALPHA decay"""
@@ -92,7 +92,7 @@ class TestTopologyBiMoTypeMapper:
         
         sig = TopologyBiMoTypeMapper.create_radioactive_signature_from_topology(topology_state)
         
-        assert sig['isotope'] == 'Pu238'
+        assert sig['isotope'] == 'H2'
 
 
 class TestTernaryBiMoTypeEncoder:
