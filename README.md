@@ -7,8 +7,6 @@
 
 > **Bridging Ternary Topology, Nuclear Physics, and Quantum Cryptography**
 
-
-
 ![Quantum](https://img.shields.io/badge/Smopsys-Software-black)
 [![Tests](https://img.shields.io/badge/tests-36%2F36%20passing-brightgreen)](tests/)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
@@ -88,12 +86,32 @@ Encoding information into 3 fundamental states mapped to ALPHA, BETA, and GAMMA 
 * **Big-Endian Encoding**: High-density packing for embedded smopsys Q-CORE.
 * **H7 Conservation**: Invariants satisfying `index + pair = 7`.
 
+### 4. Database & Persistence (`.database`)
+
+Persistent session management and audit trails with hardware-linked signatures.
+
+* **Session Tracking**: Unique fingerprints based on system identity and $O_n$ modulation.
+* **Audit Logs**: Immutable traces of system evolution and state changes.
+
+```python
+from bimotype_ternary.core.session_manager import SessionManager
+
+# Start a tracked session with recursion
+sm = SessionManager(db_path="my_session.sqlite3")
+session = sm.start_session(session_number=1)
+
+# Evolve and persist state
+evolved = sm.process_and_evolve({"entropy": 0.42})
+print(f"Stored Fingerprint: {session['fingerprint']}")
+```
+
 ---
 
 ## 🛠️ Examples & Tools
 
 Explore the `examples/` directory for ready-to-use demonstrations:
 
+* **[db_demo.py](examples/db_demo.py)**: Session persistence, hardware identity, and audit logging.
 * **[crypto_demo.py](examples/crypto_demo.py)**: Full walkthrough of password hardening and file encryption.
 * **[metriplectic_demo.py](examples/metriplectic_demo.py)**: Physics simulation of Hamiltonian-Dissipative competition.
 * **[demo.py](examples/demo.py)**: High-level BiMoType integration and noise-resilient decoding.
@@ -105,12 +123,14 @@ Explore the `examples/` directory for ready-to-use demonstrations:
 ```text
 bimotype-ternary/
 ├── bimotype_ternary/     # Core library
+│   ├── core/             # 🧠 Session & Recursive Engines
 │   ├── crypto/           # 🔐 Quantum encryption & passwords
+│   ├── database/         # 🗄️ Persistence & Audit Models
 │   ├── physics/          # ⚛️ Metriplectic dynamics
 │   ├── topology/         # 🌀 Ternary & H7 encoding
 │   ├── integration/      # 🔗 BiMoType bridge
 │   └── codegen/          # 💻 Embedded C generation
-├── tests/                # Comprehensive test suite (36 tests)
+├── tests/                # Comprehensive test suite
 └── examples/             # Tutorials and CLI demos
 ```
 
