@@ -24,12 +24,12 @@ def run_db_demo():
     print(f"Estado Guardado en DB: {evolved}")
 
     # 2. Consultar directamente la Base de Datos para auditoría
-    print(f"\n--- Consulta de Auditoría (Directo desde DB) ---")
+    print("\n--- Consulta de Auditoría (Directo desde DB) ---")
     db_mgr = DatabaseManager(db_file)
     session = db_mgr.get_session()
     
-    from bimotype_ternary.database.models import SystemSession, IdentityMetrics, AuditLog
-    
+    from bimotype_ternary.database.models import IdentityMetrics, AuditLog
+
     # Ver identidad
     identity = session.query(IdentityMetrics).first()
     if identity:
