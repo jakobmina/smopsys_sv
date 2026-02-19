@@ -45,6 +45,8 @@ dependencies = [
     "pandas>=1.3.0",
     "plotly>=5.0.0",
     "sqlalchemy>=2.0.0",
+    "psimon-h7>=2.0.0",
+    "quoremind>=1.0.0",
 ]
 
 [project.optional-dependencies]

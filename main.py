@@ -13,7 +13,7 @@ import sys
 import argparse
 import subprocess
 import os
-from psimon import main as psimon_main
+# from psimon import main as psimon_main # Removido: Usar CLI de psimon-h7 vía subprocess
 from examples.demo import demo_ternary_bimotype
 from examples.metriplectic_demo import run_demo as run_metriplectic_demo
 from examples.generate_metriplectic_keys import MetriplecticKeyGenerator
@@ -86,12 +86,14 @@ def main():
         run_crypto_demo(args.crypto)
         
     if args.smopsys:
-        # psimon.main utiliza sys.argv, así que le pasamos lo que queda o lo llamamos directamente
-        # Si queremos la ayuda de psimon, podemos simplemente delegar
-        print("\n[INFO] Delegando control a PSimon CLI...")
-        # Limpiamos sys.argv para que psimon no se confunda con --smopsys
-        sys.argv = [sys.argv[0]] + sys.argv[2:]
-        psimon_main()
+        print("\n[INFO] Ejecutando PSimon CLI desde la librería instalada...")
+        try:
+            # Ejecutar el comando 'psimon' que viene con psimon-h7
+            subprocess.run(["psimon"] + sys.argv[2:])
+        except FileNotFoundError:
+            print("❌ Error: El comando 'psimon' no se encuentra. ¿Está instalado psimon-h7?")
+        except Exception as e:
+            print(f"❌ Error al ejecutar PSimon: {e}")
 
     if args.listen:
         peer = MetriplecticPeer(port=args.port)
