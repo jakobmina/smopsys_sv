@@ -45,6 +45,16 @@ This framework is built upon the foundational principles of Metriplectic dynamic
 - **Metriplectic Console**: Real-time visualization of P2P activity, identity management, and secure chat.
 - **Glassmorphism UI**: High-premium dark theme optimized for technical workflows.
 
+### ⚛️ Radioactive Signatures & Data Structures
+
+BiMoType-Ternary includes a specialized library for radioactive signature modeling and quantum state management:
+
+- **Isotope Registry**: Built-in library of nuclear isotopes including **Sr-90**, **Tc-99m**, **Pu-238**, and now full **Hydrogen isotopes** support:
+  - **H1 (Protium)** & **H2 (Deuterium)**: Stable isotopes for baseline modulation.
+  - **H3 (Tritium)**: Beta-decay signature for active quantum channel seeding.
+- **Bi-Modal Data Types**: Rigorous implementation of `FirmaRadiactiva` and `EstadoCuantico` for hybrid physical-informational modeling.
+- **Normalización Cuántica**: Built-in validation for qubit state normalization ($|\alpha|^2 + |\beta|^2 = 1$).
+
 ---
 
 ## 📦 Installation

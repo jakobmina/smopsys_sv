@@ -23,7 +23,8 @@ class TipoDecaimiento(Enum):
     BETA = "BETA"      # β⁻ decay (electrón)
     GAMMA = "GAMMA"    # γ decay (fotón)
     ALPHA = "ALPHA"    # α decay (núcleo de helio)
-    
+    STABLE = "STABLE"  # Isótopo estable (sin decaimiento)
+
     def __str__(self):
         return self.value
 
@@ -36,35 +37,35 @@ class TipoDecaimiento(Enum):
 class FirmaRadiactiva:
     """
     Firma radiactiva para protocolo BiMoType.
-    
+
     Combina propiedades nucleares con métricas cuánticas
     para codificación de información.
     """
-    
+
     # Identificación del isótopo
     isotope: str
-    
+
     # Propiedades radiactivas
     decay_type: TipoDecaimiento
     energy_peak_ev: float          # Energía del pico (eV)
     half_life_s: float             # Vida media (segundos)
     nuclear_spin: float            # Spin nuclear
-    
+
     # Métricas cuánticas (Mahalanobis-Gravedad)
     mahalanobis_distance: float    # Distancia de Mahalanobis
     lambda_double_non_locality: float  # λ de no-localidad doble
     mg_polarity: float             # Polaridad MG (0-1)
     mg_threshold: float = 0.5      # Umbral MG
-    
+
     # Propiedades del vacío
     vacuum_polarity_n_r: float = 0.0  # Polaridad del vacío
-    
+
     # Estado cuántico
     quantum_phase: float = 0.0     # Fase cuántica (radianes)
-    
+
     # Codificación topológica (opcional)
     topology_encoding: Optional[Dict[str, Any]] = None
-    
+
     def to_dict(self) -> Dict:
         """Convierte a diccionario para serialización"""
         return {
@@ -81,14 +82,14 @@ class FirmaRadiactiva:
             'quantum_phase': self.quantum_phase,
             'topology_encoding': self.topology_encoding
         }
-    
+
     @classmethod
     def from_dict(cls, data: Dict) -> 'FirmaRadiactiva':
         """Crea desde diccionario"""
         # Convertir string a enum
         if isinstance(data['decay_type'], str):
             data['decay_type'] = TipoDecaimiento(data['decay_type'])
-        
+
         return cls(**data)
 
 
@@ -96,34 +97,34 @@ class FirmaRadiactiva:
 class EstadoCuantico:
     """
     Estado cuántico para un qubit en el protocolo BiMoType.
-    
+
     Representa |ψ⟩ = α|0⟩ + β|1⟩
     """
     alpha: complex  # Amplitud del estado |0⟩
     beta: complex   # Amplitud del estado |1⟩
-    
+
     def __post_init__(self):
         """Valida normalización"""
         norm = abs(self.alpha)**2 + abs(self.beta)**2
         if abs(norm - 1.0) > 1e-6:
             raise ValueError(f"Estado no normalizado: |α|² + |β|² = {norm}")
-    
+
     @property
     def phase(self) -> float:
         """Calcula la fase relativa"""
         import cmath
         return cmath.phase(self.beta / self.alpha) if self.alpha != 0 else 0.0
-    
+
     @property
     def probability_0(self) -> float:
         """Probabilidad de medir |0⟩"""
         return abs(self.alpha)**2
-    
+
     @property
     def probability_1(self) -> float:
         """Probabilidad de medir |1⟩"""
         return abs(self.beta)**2
-    
+
     def to_dict(self) -> Dict:
         """Convierte a diccionario"""
         return {
@@ -148,7 +149,7 @@ class PaqueteBiMoType:
     message: str
     quantum_states: list  # Lista de EstadoCuantico o dicts
     encoding_metadata: Dict[str, Any]
-    
+
     def to_dict(self) -> Dict:
         """Convierte a diccionario para JSON"""
         return {
@@ -195,6 +196,33 @@ RADIOACTIVE_ISOTOPES = {
         'half_life_years': 87.7,
         'energy_ev': 5.59,
         'spin': 0
+    },
+    'H1': {
+        'name': 'Hydrogen-1 (Protium)',
+        'Z': 1,
+        'A': 1,
+        'decay_type': TipoDecaimiento.STABLE,
+        'half_life_years': float('inf'),
+        'energy_ev': 0.0,
+        'spin': 1/2
+    },
+    'H2': {
+        'name': 'Hydrogen-2 (Deuterium)',
+        'Z': 1,
+        'A': 2,
+        'decay_type': TipoDecaimiento.STABLE,
+        'half_life_years': float('inf'),
+        'energy_ev': 0.0,
+        'spin': 1
+    },
+    'H3': {
+        'name': 'Hydrogen-3 (Tritium)',
+        'Z': 1,
+        'A': 3,
+        'decay_type': TipoDecaimiento.BETA,
+        'half_life_years': 12.32,
+        'energy_ev': 0.0186,
+        'spin': 1/2
     }
 }
 
@@ -206,19 +234,19 @@ RADIOACTIVE_ISOTOPES = {
 def crear_firma_desde_isotopo(isotope_name: str, **kwargs) -> FirmaRadiactiva:
     """
     Crea una FirmaRadiactiva desde un isótopo conocido.
-    
+
     Args:
         isotope_name: Nombre del isótopo (e.g., 'Sr90')
         **kwargs: Parámetros adicionales para sobrescribir
-    
+
     Returns:
         FirmaRadiactiva configurada
     """
     if isotope_name not in RADIOACTIVE_ISOTOPES:
         raise ValueError(f"Isótopo desconocido: {isotope_name}")
-    
+
     iso_data = RADIOACTIVE_ISOTOPES[isotope_name]
-    
+
     # Valores por defecto
     defaults = {
         'isotope': isotope_name,
@@ -233,10 +261,10 @@ def crear_firma_desde_isotopo(isotope_name: str, **kwargs) -> FirmaRadiactiva:
         'vacuum_polarity_n_r': 0.0,
         'quantum_phase': 0.0
     }
-    
+
     # Sobrescribir con kwargs
     defaults.update(kwargs)
-    
+
     return FirmaRadiactiva(**defaults)
 
 
@@ -245,21 +273,21 @@ if __name__ == '__main__':
     print("=" * 80)
     print("  BIMOTYPE DATA STRUCTURES DEMO")
     print("=" * 80)
-    
+
     # Crear firma radiactiva
     firma = crear_firma_desde_isotopo(
         'Sr90',
         mahalanobis_distance=0.7,
         quantum_phase=1.57
     )
-    
+
     print(f"\nFirma Radiactiva:")
     print(f"  Isótopo: {firma.isotope}")
     print(f"  Tipo: {firma.decay_type}")
     print(f"  Energía: {firma.energy_peak_ev} eV")
     print(f"  Vida media: {firma.half_life_s:.2e} s")
     print(f"  Fase cuántica: {firma.quantum_phase:.4f} rad")
-    
+
     # Crear estado cuántico
     import numpy as np
     phase = np.pi / 4
@@ -267,12 +295,12 @@ if __name__ == '__main__':
         alpha=np.cos(phase/2),
         beta=np.sin(phase/2)
     )
-    
+
     print(f"\nEstado Cuántico:")
     print(f"  α = {estado.alpha:.4f}")
     print(f"  β = {estado.beta:.4f}")
     print(f"  Fase = {estado.phase:.4f} rad")
     print(f"  P(|0⟩) = {estado.probability_0:.4f}")
     print(f"  P(|1⟩) = {estado.probability_1:.4f}")
-    
+
     print("\n" + "=" * 80)
