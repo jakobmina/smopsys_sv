@@ -26,14 +26,13 @@ from dataclasses import dataclass
 
 # Intentar importar PSimon
 try:
-    # Importar componentes principales de PSimon
-    import MetriplexOracle
-    import NuclearSystem
-    import SimonAlgorithm
+    # Importar componentes principales de PSimon (instalados como paquetes top-level)
+    from core.psimon_framework import PSimon
+    from physics.chiral_fermionic_system import ChiralEncoder
+    from models.cognitive_engine import demonstrate_cognitive_system
     
-    # Por ahora, vamos a crear stubs basados en tu output
     PSIMON_AVAILABLE = True
-    print("[INFO] PSimon library detected (simulated)")
+    print("[INFO] PSimon library detected and integrated")
 except ImportError:
     PSIMON_AVAILABLE = False
     print("[WARNING] PSimon library not found. Install with: pip install psimon-h7")

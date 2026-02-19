@@ -1,16 +1,15 @@
 <p align="center">
   <img width="128" height="111" alt="logo" src="https://github.com/user-attachments/assets/875e9ac7-6414-44d2-a571-cf385117cff0" />
-
 </p>
 
 # BiMoType-Ternary: The Metriplectic Quantum Framework
 
-> **Bridging Ternary Topology, Nuclear Physics, and Quantum Cryptography**
+> **Bridging Ternary Topology, Nuclear Physics, and Secure P2P Quantum Communication**
 
-![Quantum](https://img.shields.io/badge/Smopsys-Software-black)
-[![Tests](https://img.shields.io/badge/tests-36%2F36%20passing-brightgreen)](tests/)
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+![Quantum](https://img.shields.io/badge/Smopsys-Software-black?style=for-the-badge)
+![Security](https://img.shields.io/badge/Security-Handshake%20Mutuo-8A2BE2?style=for-the-badge)
+[![Tests](https://img.shields.io/badge/tests-39%2F39%20passing-brightgreen?style=for-the-badge)](tests/)
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue?style=for-the-badge)](https://www.python.org/)
 
 BiMoType-Ternary is a high-performance framework that unifies **topological quantum computing** with **nuclear physics signatures**. By leveraging ternary logic (-1, 0, +1) and the rigorous **Metriplectic Mandate**, it provides a stable and physically verifiable substrate for quantum communication and cryptography.
 
@@ -18,103 +17,79 @@ BiMoType-Ternary is a high-performance framework that unifies **topological quan
 
 ## 📜 El Mandato Metriplético (Core Philosophy)
 
-This framework is built upon the foundational principles of Metriplectic dynamics, ensuring that every simulation or theoretical construct is physically robust:
+This framework is built upon the foundational principles of Metriplectic dynamics:
 
-1. **Symplectic Component (Hamiltonian $H$)**: Generates conservative, reversible motion (e.g., Schrödinger evolution, quantum phase advection).
-2. **Metric Component (Entropy $S$)**: Generates irreversible relaxation toward an attractor (e.g., radioactive decay, viscosity).
-3. **Prohibición de Singularidades**: Purely conservative systems explode; purely dissipative systems die. We balance both.
-4. **Golden Operator ($O_n$)**: The vacuum is structured. All space is modulated by $O_n = \cos(\pi n) \cdot \cos(\pi \phi n)$, where $\phi \approx 1.618$.
+1. **Symplectic Component (Hamiltonian $H$)**: Generates conservative, reversible motion (Schrödinger evolution).
+2. **Metric Component (Entropy $S$)**: Generates irreversible relaxation toward an attractor (Radioactive decay).
+3. **No Singularities**: We balance the dual brackets to avoid numerical explosion or thermal death.
+4. **Golden Operator ($O_n$)**: All simulation space is modulated by $O_n = \cos(\pi n) \cdot \cos(\pi \phi n)$, where $\phi \approx 1.618$.
+
+---
+
+## 🚀 Key Features
+
+### 🔐 Multi-Layer Security
+
+- **Metriplectic Cryptography**: Encryption anchored in radioactive decay topology.
+- **Hardware Fingerprinting**: Devices are identified by unique hardware-recursive signatures.
+- **Mutual Handshake Protocol**: "Deny-by-Default" security. All P2P connections must be explicitly authorized.
+
+### 📡 Secure P2P Networking
+
+- **Decentralized Discovery**: Automatic peer registration and discovery via local cache.
+- **Topological Packets**: Data is encoded into ternary BiMoType packets for maximum resilience.
+- **Handshake Verification**: Automatic filtering of unauthorized data packets.
+
+### 🧬 Interactive Dashboard
+
+- **Metriplectic Console**: Real-time visualization of P2P activity, identity management, and secure chat.
+- **Glassmorphism UI**: High-premium dark theme optimized for technical workflows.
 
 ---
 
 ## 📦 Installation
 
-Install the library directly from PyPI:
-
 ```bash
+# Recomendado: Entorno virtual
+python3 -m venv env
+source env/bin/activate
+
+# Instalación directa desde PyPI (Próximamente v1.3.0)
 pip install bimotype-ternary
-```
 
-For development or full features:
-
-```bash
-# Clone and install with all extras
-git clone https://github.com/jakobmina/smopsys_sv.git
-cd smopsys_sv
+# Instalación modo desarrollo
 pip install -e ".[all]"
 ```
 
 ---
 
-## 🚀 Key Modules
+## 🛠️ Usage
 
-### 1. Quantum Cryptography (`.crypto`)
+### Launching the Dashboard (GUI)
 
-Secure password generation and file encryption anchored in nuclear topology.
+The most interactive way to use BiMoType is through the Streamlit-based dashboard:
 
-* **Entropy**: Mixed from system CSPRNG, topological states, and radioactive signatures.
-* **Encryption**: AES-256-GCM with quantum-verified metadata.
-
-```python
-from bimotype_ternary.crypto import QuantumPasswordGenerator, QuantumEncryptor
-
-# Generate a quantum-hardened password
-gen = QuantumPasswordGenerator()
-pwd = gen.generate(length=16, charset='all')
-
-# Encrypt a message with radioactive metadata
-enc = QuantumEncryptor()
-packet = enc.encrypt(b"Top Secret", password=pwd)
-print(f"Signed with: {packet.metadata['isotope']} ({packet.metadata['decay_type']})")
+```bash
+python main.py --gui
 ```
 
-### 2. Metriplectic Physics (`.physics`)
+### P2P Communication via CLI
 
-Simulates the evolution of systems respecting dual-bracket dynamics.
+You can also run listening peers or send data via command line:
 
-```python
-# See examples/metriplectic_demo.py for a full simulation
-# Balance of Symplectic (Conservative) and Metric (Dissipative) terms
-lagrangian = system.compute_lagrangian()
-params = (lagrangian.L_symp, lagrangian.L_metr)
+```bash
+# Iniciar escucha P2P
+python main.py --listen
+
+# Enviar mensaje a un fingerprint específico
+python main.py --send <DEST_FINGERPRINT> --message "HELLO_H7"
 ```
 
-### 3. Ternary Topology (`.topology`)
+### Key Generation Demo
 
-Encoding information into 3 fundamental states mapped to ALPHA, BETA, and GAMMA decays.
-
-* **Big-Endian Encoding**: High-density packing for embedded smopsys Q-CORE.
-* **H7 Conservation**: Invariants satisfying `index + pair = 7`.
-
-### 4. Database & Persistence (`.database`)
-
-Persistent session management and audit trails with hardware-linked signatures.
-
-* **Session Tracking**: Unique fingerprints based on system identity and $O_n$ modulation.
-* **Audit Logs**: Immutable traces of system evolution and state changes.
-
-```python
-from bimotype_ternary.core.session_manager import SessionManager
-
-# Start a tracked session with recursion
-sm = SessionManager(db_path="my_session.sqlite3")
-session = sm.start_session(session_number=1)
-
-# Evolve and persist state
-evolved = sm.process_and_evolve({"entropy": 0.42})
-print(f"Stored Fingerprint: {session['fingerprint']}")
+```bash
+python main.py --crypto 42
 ```
-
----
-
-## 🛠️ Examples & Tools
-
-Explore the `examples/` directory for ready-to-use demonstrations:
-
-* **[db_demo.py](examples/db_demo.py)**: Session persistence, hardware identity, and audit logging.
-* **[crypto_demo.py](examples/crypto_demo.py)**: Full walkthrough of password hardening and file encryption.
-* **[metriplectic_demo.py](examples/metriplectic_demo.py)**: Physics simulation of Hamiltonian-Dissipative competition.
-* **[demo.py](examples/demo.py)**: High-level BiMoType integration and noise-resilient decoding.
 
 ---
 
@@ -122,34 +97,34 @@ Explore the `examples/` directory for ready-to-use demonstrations:
 
 ```text
 bimotype-ternary/
-├── bimotype_ternary/     # Core library
+├── bimotype_ternary/     # Nucleo de la Librería
 │   ├── core/             # 🧠 Session & Recursive Engines
-│   ├── crypto/           # 🔐 Quantum encryption & passwords
-│   ├── database/         # 🗄️ Persistence & Audit Models
-│   ├── physics/          # ⚛️ Metriplectic dynamics
-│   ├── topology/         # 🌀 Ternary & H7 encoding
-│   ├── integration/      # 🔗 BiMoType bridge
-│   └── codegen/          # 💻 Embedded C generation
-├── tests/                # Comprehensive test suite
-└── examples/             # Tutorials and CLI demos
+│   ├── crypto/           # 🔐 Criptografía & Handshaking
+│   ├── database/         # 🗄️ Persistencia SQLite & Modelos
+│   ├── network/          # 📡 P2P, Discovery & Handshake Protocol
+│   ├── physics/          # ⚛️ Dinámica Metriplética
+│   └── topology/         # 🌀 Codificación Ternaria & H7
+├── gui.py                # 🧬 Streamlit Dashboard
+├── main.py               # 🚀 Entry Point Unificado
+└── tests/                # 🧪 Suite de Pruebas (Seguridad & P2P)
 ```
 
 ---
 
 ## 🧪 Verification
 
-We maintain 100% test pass rate for all topological and cryptographic logic.
+Mantenemos un rigor físico y matemático absoluto. Todos los cambios en la capa P2P y Seguridad deben superar los tests de inyección y autorización:
 
 ```bash
-pytest tests/
+pytest tests/test_p2p.py
 ```
 
 ---
 
 ## 📄 License & Credits
 
-* **Author**: Jacobo Tlacaelel Mina Rodriguez
-* **Principles**: El Mandato Metriplético
-* **License**: MIT
+- **Autor**: Jacobo Tlacaelel Mina Rodriguez
+- **Principios**: Marco de la Analogía Rigurosa (TLACA)
+- **Licencia**: MIT
 
-*Built with ❤️ for a rigorous quantum future.*
+*Built for a rigorous and secure quantum future.*
