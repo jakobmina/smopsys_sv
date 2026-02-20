@@ -7,7 +7,7 @@ Quantum communication protocol with radioactive signatures and topological encod
 Author: Jacobo Tlacaelel Mina Rodriguez
 """
 
-__version__ = "1.0.0"
+__version__ = "1.3.0"
 __author__ = "Jacobo Tlacaelel Mina Rodriguez"
 
 # Core components

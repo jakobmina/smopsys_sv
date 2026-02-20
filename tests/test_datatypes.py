@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from datatypes import TipoDecaimiento, FirmaRadiactiva, EstadoCuantico, PaqueteBiMoType, crear_firma_desde_isotopo
+from bimotype_ternary.core.datatypes import TipoDecaimiento, FirmaRadiactiva, EstadoCuantico, PaqueteBiMoType, crear_firma_desde_isotopo
 
 def test_tipo_decaimiento_str():
     assert str(TipoDecaimiento.BETA) == "BETA"
@@ -42,7 +42,7 @@ def test_crear_firma_desde_isotopo():
     h3 = crear_firma_desde_isotopo("H3")
     assert h3.isotope == "H3"
     assert h3.decay_type == TipoDecaimiento.BETA
-    assert h3.energy_peak_ev == 0.0186
+    assert h3.energy_peak_ev == 18600.0
     
     # Test Protium (Stable)
     h1 = crear_firma_desde_isotopo("H1")

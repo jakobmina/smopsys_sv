@@ -75,8 +75,8 @@ Issues = "https://github.com/yourusername/bimotype-ternary/issues"
 Changelog = "https://github.com/yourusername/bimotype-ternary/blob/main/CHANGELOG.md"
 
 [project.scripts]
-bimotype = "main:main"
-bimotype-gui = "main:main"
+bimotype = "bimotype_ternary.main:main"
+bimotype-gui = "bimotype_ternary.main:main"
 bimotype-crypto = "bimotype_ternary.crypto.cli:cli"
 
 [tool.setuptools]
