@@ -2,8 +2,7 @@ include README.md
 include LICENSE
 include requirements.txt
 include pyproject.toml
-recursive-include bimotype_ternary *.py *.h
-recursive-include examples *.py
+recursive-include bimotype_ternary *.py *.h *.json
 recursive-include docs *.md
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

@@ -170,17 +170,17 @@ static inline void create_radioactive_signature_from_topology(
     
     switch (sig->decay_type) {
         case DECAY_BETA:
-            sig->energy_peak_ev = 0.546f * binding_factor;
+            sig->energy_peak_ev = 546000.0f * binding_factor;
             sig->half_life_s = 28.8f * 3.154e7f;
             sig->nuclear_spin = 0.0f;
             break;
         case DECAY_GAMMA:
-            sig->energy_peak_ev = 0.14f * binding_factor;
+            sig->energy_peak_ev = 140000.0f * binding_factor;
             sig->half_life_s = 0.25f * 3.154e7f;
             sig->nuclear_spin = 4.5f;
             break;
         case DECAY_ALPHA:
-            sig->energy_peak_ev = 5.59f * binding_factor;
+            sig->energy_peak_ev = 5590000.0f * binding_factor;
             sig->half_life_s = 87.7f * 3.154e7f;
             sig->nuclear_spin = 0.0f;
             break;

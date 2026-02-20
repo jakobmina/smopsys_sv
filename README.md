@@ -80,7 +80,8 @@ pip install -e ".[all]"
 The most interactive way to use BiMoType is through the Streamlit-based dashboard:
 
 ```bash
-python main.py --gui
+# Una vez instalado el paquete
+bimotype --gui
 ```
 
 ### P2P Communication via CLI
@@ -89,16 +90,16 @@ You can also run listening peers or send data via command line:
 
 ```bash
 # Iniciar escucha P2P
-python main.py --listen
+bimotype --listen
 
 # Enviar mensaje a un fingerprint específico
-python main.py --send <DEST_FINGERPRINT> --message "HELLO_H7"
+bimotype --send <DEST_FINGERPRINT> --message "HELLO_H7"
 ```
 
 ### Key Generation Demo
 
 ```bash
-python main.py --crypto 42
+bimotype --crypto 42
 ```
 
 ---
@@ -114,8 +115,10 @@ bimotype-ternary/
 │   ├── network/          # 📡 P2P, Discovery & Handshake Protocol
 │   ├── physics/          # ⚛️ Dinámica Metriplética
 │   └── topology/         # 🌀 Codificación Ternaria & H7
-├── gui.py                # 🧬 Streamlit Dashboard
-├── main.py               # 🚀 Entry Point Unificado
+├── bimotype_ternary/     # Nucleo de la Librería
+│   ├── ...
+│   ├── gui.py            # 🧬 Streamlit Dashboard
+│   └── main.py           # 🚀 Entry Point Unificado (CLI)
 └── tests/                # 🧪 Suite de Pruebas (Seguridad & P2P)
 ```
 

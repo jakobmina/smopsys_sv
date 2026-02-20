@@ -14,9 +14,9 @@ import argparse
 import subprocess
 import os
 # from psimon import main as psimon_main # Removido: Usar CLI de psimon-h7 vía subprocess
-from examples.demo import demo_ternary_bimotype
-from examples.metriplectic_demo import run_demo as run_metriplectic_demo
-from examples.generate_metriplectic_keys import MetriplecticKeyGenerator
+from bimotype_ternary.examples.demo import demo_ternary_bimotype
+from bimotype_ternary.examples.metriplectic_demo import run_demo as run_metriplectic_demo
+from bimotype_ternary.examples.generate_metriplectic_keys import MetriplecticKeyGenerator
 from bimotype_ternary.network.p2p import MetriplecticPeer
 from bimotype_ternary.network.discovery import PeerDiscovery
 
@@ -63,15 +63,19 @@ def main():
     
     if args.gui:
         print("\n[INFO] Iniciando BiMoType Dashboard...")
-        # Usar el intérprete de python del venv para ejecutar streamlit como módulo
+        # Localizar gui.py dentro del paquete
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        python_executable = os.path.join(base_dir, "env", "bin", "python3")
+        gui_path = os.path.join(base_dir, "gui.py")
         
-        if not os.path.exists(python_executable):
-            python_executable = sys.executable # Fallback al actual
+        if not os.path.exists(gui_path):
+            print(f"❌ Error: No se encontró el archivo de la interfaz en {gui_path}")
+            sys.exit(1)
             
+        python_executable = sys.executable
+
         try:
-            subprocess.run([python_executable, "-m", "streamlit", "run", "gui.py"])
+            # Ejecutar streamlit run gui_path
+            subprocess.run([python_executable, "-m", "streamlit", "run", gui_path])
         except Exception as e:
             print(f"❌ Error al iniciar el Dashboard: {e}")
         sys.exit(0)

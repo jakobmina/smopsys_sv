@@ -23,6 +23,7 @@ class TipoDecaimiento(Enum):
     BETA = "BETA"      # β⁻ decay (electrón)
     GAMMA = "GAMMA"    # γ decay (fotón)
     ALPHA = "ALPHA"    # α decay (núcleo de helio)
+    STABLE = "STABLE"  # Isótopo estable (sin decaimiento)
     
     def __str__(self):
         return self.value
@@ -169,11 +170,38 @@ class PaqueteBiMoType:
 # ============================================================================
 
 RADIOACTIVE_ISOTOPES = {
+    'Sr90': {
+        'name': 'Strontium-90',
+        'Z': 38,
+        'A': 90,
+        'decay_type': TipoDecaimiento.BETA,
+        'half_life_years': 28.8,
+        'energy_ev': 546000.0,
+        'spin': 0
+    },
+    'Tc99m': {
+        'name': 'Technetium-99m',
+        'Z': 43,
+        'A': 99,
+        'decay_type': TipoDecaimiento.GAMMA,
+        'half_life_years': 0.25,
+        'energy_ev': 140000.0,
+        'spin': 9/2
+    },
+    'Pu238': {
+        'name': 'Plutonium-238',
+        'Z': 94,
+        'A': 238,
+        'decay_type': TipoDecaimiento.ALPHA,
+        'half_life_years': 87.7,
+        'energy_ev': 5590000.0,
+        'spin': 0
+    },
     'H1': {
         'name': 'Protio',
         'Z': 1,
         'A': 1,
-        'decay_type': TipoDecaimiento.GAMMA, # Estable, mapeado a Gamma para firma neutra
+        'decay_type': TipoDecaimiento.STABLE,
         'half_life_years': float('inf'),
         'energy_ev': 0.0,
         'spin': 1/2
@@ -182,7 +210,7 @@ RADIOACTIVE_ISOTOPES = {
         'name': 'Deuterio',
         'Z': 1,
         'A': 2,
-        'decay_type': TipoDecaimiento.ALPHA, # Estable, mapeado a Alpha para firma positiva
+        'decay_type': TipoDecaimiento.STABLE,
         'half_life_years': float('inf'),
         'energy_ev': 0.0,
         'spin': 1
@@ -224,7 +252,7 @@ def crear_firma_desde_isotopo(isotope_name: str, **kwargs) -> FirmaRadiactiva:
         'isotope': isotope_name,
         'decay_type': iso_data['decay_type'],
         'energy_peak_ev': iso_data['energy_ev'],
-        'half_life_s': iso_data['half_life_years'] * 3.154e7,
+        'half_life_s': iso_data['half_life_years'] * 3.154e7 if iso_data['half_life_years'] != float('inf') else float('inf'),
         'nuclear_spin': iso_data['spin'],
         'mahalanobis_distance': 0.5,
         'lambda_double_non_locality': 0.5,
