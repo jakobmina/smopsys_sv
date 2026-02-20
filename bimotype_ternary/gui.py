@@ -1,7 +1,15 @@
 import streamlit as st
 import time
 import os
+import sys
 import json
+
+# Añadir el directorio padre al sys.path para permitir ejecución de streamlit y resolver imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
 from bimotype_ternary.network.p2p import MetriplecticPeer
 from bimotype_ternary.network.discovery import PeerDiscovery
 try:

@@ -10,9 +10,16 @@ Autor: Jacobo Tlacaelel Mina Rodriguez
 """
 
 import sys
+import os
 import argparse
 import subprocess
-import os
+
+# Añadir el directorio padre al sys.path para permitir ejecución directa del script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
 # from psimon import main as psimon_main # Removido: Usar CLI de psimon-h7 vía subprocess
 from bimotype_ternary.examples.demo import demo_ternary_bimotype
 from bimotype_ternary.examples.metriplectic_demo import run_demo as run_metriplectic_demo
