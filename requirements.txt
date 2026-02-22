@@ -2,3 +2,7 @@ numpy>=1.20.0
 pytest>=7.0.0
 psimon-h7>=2.0.0
 quoremind>=1.0.0
+flet>=0.21.2
+qrcode>=7.3.1
+pyzbar>=0.1.9
+opencv-python>=4.8.0
