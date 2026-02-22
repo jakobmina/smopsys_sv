@@ -5,7 +5,12 @@ import qrcode
 from io import BytesIO
 import cv2
 import numpy as np
-from pyzbar.pyzbar import decode
+try:
+    from pyzbar.pyzbar import decode
+    ZBAR_AVAILABLE = True
+except ImportError:
+    decode = None
+    ZBAR_AVAILABLE = False
 from bimotype_ternary.examples.generate_metriplectic_keys import MetriplecticKeyGenerator
 
 class QRTransferProtocol:
@@ -140,6 +145,10 @@ class QRTransferProtocol:
         Opens the webcam to scan an animated QR sequence.
         Returns the decrypted bytes once all frames are collected.
         """
+        if not ZBAR_AVAILABLE:
+            print("Error: pyzbar or zbar shared library not available.")
+            return None, None
+
         cap = cv2.VideoCapture(camera_index)
         
         frames_collected = {}
