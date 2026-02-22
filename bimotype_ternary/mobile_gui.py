@@ -314,7 +314,7 @@ def main(page: ft.Page):
                 snack("Escaneo cancelado o fallido.")
 
         threading.Thread(target=_scan, daemon=True).start()
-
+    text = ft.Text("Seleccionar y Emitir")
     jls_extract_var = text
     qr_view = ft.Column(
         controls=[
@@ -325,9 +325,9 @@ def main(page: ft.Page):
                 size=20
             ),
             ft.Divider(color=ACCENT_COLOR),
-            ft.jls_extract_def(Text)("Emitir Archivo 📤", color=ft.Colors.WHITE),
+            ft.jls_extract_def(Text)(text="Emitir Archivo 📤", color=ft.Colors.WHITE),
             ft.FilledButton(
-                jls_extract_var="Seleccionar y Emitir",
+                jls_extract_var=text,
                 icon=ft.Icons.UPLOAD_FILE,
                 on_click=lambda _: file_picker.pick_files()
             ),
