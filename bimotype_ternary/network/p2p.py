@@ -22,6 +22,7 @@ class MetriplecticPeer:
         self.running = False
         self.on_message_received: Optional[Callable[[str, Dict[str, Any]], None]] = None
         self.on_handshake_received: Optional[Callable[[str], None]] = None
+        self.on_trust_established: Optional[Callable[[str], None]] = None
         
         # Security: Whitelist of authorized fingerprints
         self.trusted_peers = set()
@@ -32,6 +33,8 @@ class MetriplecticPeer:
         """Manually add a peer to the trusted list."""
         self.trusted_peers.add(fingerprint)
         print(f"[P2P] Peer {fingerprint[:8]} added to trusted list.")
+        if self.on_trust_established:
+            self.on_trust_established(fingerprint)
 
     def start_listening(self, thread_callback: Optional[Callable[[threading.Thread], None]] = None):
         """Starts a background thread to listen for incoming packets."""

@@ -1,6 +1,7 @@
 import flet as ft
 import time
 import os
+import json
 import sys
 import io
 import base64
@@ -15,10 +16,6 @@ if parent_dir not in sys.path:
 from bimotype_ternary.network.p2p import MetriplecticPeer
 from bimotype_ternary.network.discovery import PeerDiscovery
 from bimotype_ternary.crypto.qr_transfer import QRTransferProtocol
-
-
-def jls_extract_def(Text):
-    return Text
 
 
 def main(page: ft.Page):
@@ -66,6 +63,7 @@ def main(page: ft.Page):
     state["peer"] = MetriplecticPeer(port=port)
     state["peer"].on_message_received = on_peer_message
     state["peer"].on_handshake_received = on_handshake
+    state["peer"].on_trust_established = lambda _: update_contacts_ui()
     state["local_fp"] = state["peer"].start_listening(thread_callback=lambda t=None: None)
     PeerDiscovery.register_peer(state["local_fp"], "127.0.0.1", port)
 
@@ -90,12 +88,72 @@ def main(page: ft.Page):
     )
 
     handshake_column = ft.Column(spacing=5)
+    contacts_column = ft.Column(spacing=5)
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 
     def snack(text, color=ft.Colors.RED_700):
         page.snack_bar = ft.SnackBar(ft.Text(text), bgcolor=color)
         page.snack_bar.open = True
+        page.update()
+
+    def update_contacts_ui():
+        contacts_column.controls.clear()
+        trusted = state["peer"].trusted_peers
+        if not trusted:
+            contacts_column.controls.append(ft.Text("No hay contactos de confianza", size=12, italic=True, color=ft.Colors.GREY_500))
+        else:
+            for t_fp in list(trusted):
+                def set_target(e, fp=t_fp):
+                    target_fp_input.value = fp
+                    page.update()
+                    snack(f"Objetivo: {fp[:8]}...", ft.Colors.BLUE_700)
+
+                contacts_column.controls.append(
+                    ft.Container(
+                        content=ft.Row([
+                            ft.Icon(ft.Icons.LOCK, color=ACCENT_COLOR, size=16),
+                            ft.Text(f"{t_fp[:16]}...", color=ACCENT_COLOR, expand=True),
+                            ft.IconButton(ft.Icons.CHAT, on_click=set_target, icon_color=ACCENT_COLOR)
+                        ]),
+                        bgcolor=SURFACE_COLOR,
+                        padding=5,
+                        border_radius=5,
+                        on_click=set_target
+                    )
+                )
+
+        # Sección de Descubrimiento (solo si hay nuevos pares)
+        discovered_controls = []
+        peers = PeerDiscovery.get_all_peers()
+        for fp, data in peers.items():
+            if fp != state["local_fp"] and fp not in trusted:
+                def request_hs(e, target_fp=fp, host=data["host"], port=data["port"]):
+                    state["peer"].request_handshake(host, port)
+                    snack(f"Handshake enviado a {target_fp[:8]}", ft.Colors.ORANGE_700)
+
+                discovered_controls.append(
+                    ft.Container(
+                        content=ft.Row([
+                            ft.Icon(ft.Icons.PERSON_ADD_OUTLINED, color=ft.Colors.GREY_400, size=16),
+                            ft.Text(f"Disponible: {fp[:8]}...", color=ft.Colors.GREY_400, expand=True),
+                            ft.IconButton(ft.Icons.HANDSHAKE, on_click=request_hs, icon_color=ft.Colors.ORANGE_400)
+                        ]),
+                        bgcolor=SURFACE_COLOR,
+                        padding=5,
+                        border_radius=5
+                    )
+                )
+
+        if discovered_controls:
+            contacts_column.controls.append(
+                ft.ExpansionTile(
+                    title=ft.Text("Descubrir nuevos pares", size=12, color=ft.Colors.GREY_400),
+                    controls=discovered_controls,
+                    text_color=ft.Colors.GREY_400,
+                    icon_color=ft.Colors.GREY_400,
+                )
+            )
         page.update()
 
     def update_handshake_ui():
@@ -109,6 +167,7 @@ def main(page: ft.Page):
                 state["handshake_requests"].remove(fp)
                 snack(f"Conexión establecida con {fp[:8]}", ft.Colors.GREEN_700)
                 update_handshake_ui()
+                update_contacts_ui()
 
             def ign_click(e, fp=req_fp):
                 state["handshake_requests"].remove(fp)
@@ -160,17 +219,27 @@ def main(page: ft.Page):
 
         if not target_fp:
             snack("Introduce un Fingerprint de destino")
-        elif target_fp not in state["peer"].trusted_peers:
+            return
+
+        if target_fp not in state["peer"].trusted_peers:
             snack("Aún no es de confianza. Solicita Handshake primero.")
-        elif prompt:
-            state["messages"].append({"role": "user", "sender": "Tu", "content": prompt})
-            target_data = PeerDiscovery.resolve_peer(target_fp)
-            if target_data:
-                state["peer"].send_packet(target_data[0], target_data[1], prompt, target_fp)
+            return
+
+        if not prompt:
+            snack("Escribe un mensaje")
+            return
+
+        state["messages"].append({"role": "user", "sender": "Tu", "content": prompt})
+        target_data = PeerDiscovery.resolve_peer(target_fp)
+        if target_data:
+            success = state["peer"].send_packet(target_data[0], target_data[1], prompt, target_fp)
+            if success:
                 msg_input.value = ""
-            update_chat_ui()
+            else:
+                snack("Error al enviar el paquete")
         else:
-            snack("Huella de destino no encontrada")
+            snack("Dirección del contacto no encontrada en caché")
+        update_chat_ui()
 
     # ── Tab 1: P2P ────────────────────────────────────────────────────────────
 
@@ -189,7 +258,14 @@ def main(page: ft.Page):
                 border_radius=5,
                 border=ft.Border.all(1, ACCENT_COLOR)
             ),
-            handshake_column,
+            ft.Text("Contactos y Solicitudes", color=ACCENT_COLOR, weight=ft.FontWeight.BOLD),
+            ft.Container(
+                content=ft.Column([
+                    handshake_column,
+                    contacts_column,
+                ], scroll=ft.ScrollMode.AUTO),
+                height=200,
+            ),
             target_fp_input,
             ft.Container(
                 content=chat_list,
@@ -314,8 +390,6 @@ def main(page: ft.Page):
                 snack("Escaneo cancelado o fallido.")
 
         threading.Thread(target=_scan, daemon=True).start()
-    text = ft.Text("Seleccionar y Emitir")
-    jls_extract_var = text
     qr_view = ft.Column(
         controls=[
             ft.Text(
@@ -325,9 +399,9 @@ def main(page: ft.Page):
                 size=20
             ),
             ft.Divider(color=ACCENT_COLOR),
-            ft.jls_extract_def(Text)(text="Emitir Archivo 📤", color=ft.Colors.WHITE),
+            ft.Text("Emitir Archivo 📤", color=ft.Colors.WHITE),
             ft.FilledButton(
-                jls_extract_var=text,
+                content=ft.Text("Seleccionar y Emitir"),
                 icon=ft.Icons.UPLOAD_FILE,
                 on_click=lambda _: file_picker.pick_files()
             ),
@@ -342,7 +416,7 @@ def main(page: ft.Page):
             ft.Divider(color=ACCENT_COLOR),
             ft.Text("Recibir Archivo 📥", color=ft.Colors.WHITE),
             ft.FilledButton(
-                text="Abrir Escáner",
+                content=ft.Text("Abrir Escáner"),
                 icon=ft.Icons.QR_CODE_SCANNER,
                 on_click=scan_qr_click
             ),
@@ -364,12 +438,12 @@ def main(page: ft.Page):
     nav_bar = ft.NavigationBar(
         bgcolor=SURFACE_COLOR,
         destinations=[
-            ft.NavigationDestination(
+            ft.NavigationBarDestination(
                 icon=ft.Icons.MESSAGE_OUTLINED,
                 selected_icon=ft.Icons.MESSAGE,
                 label="P2P Chat"
             ),
-            ft.NavigationDestination(
+            ft.NavigationBarDestination(
                 icon=ft.Icons.QR_CODE_SCANNER_OUTLINED,
                 selected_icon=ft.Icons.QR_CODE,
                 label="QR Offline"
@@ -380,6 +454,7 @@ def main(page: ft.Page):
     page.navigation_bar = nav_bar
 
     page.add(ft.SafeArea(ft.Column([p2p_view, qr_view], expand=True)))
+    update_contacts_ui()
 
 
 if __name__ == "__main__":
