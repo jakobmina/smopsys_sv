@@ -19,6 +19,10 @@ class PeerDiscovery:
         print(f"[Discovery] Registered {fingerprint[:8]} at {host}:{port}")
 
     @staticmethod
+    def get_all_peers() -> dict:
+        return PeerDiscovery._load_cache()
+
+    @staticmethod
     def resolve_peer(fingerprint: str) -> Optional[Tuple[str, int]]:
         cache = PeerDiscovery._load_cache()
         peer = cache.get(fingerprint)
