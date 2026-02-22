@@ -17,6 +17,10 @@ from bimotype_ternary.network.discovery import PeerDiscovery
 from bimotype_ternary.crypto.qr_transfer import QRTransferProtocol
 
 
+def jls_extract_def(Text):
+    return Text
+
+
 def main(page: ft.Page):
     page.title = "BiMoType Metriplectic Console"
     page.theme_mode = ft.ThemeMode.DARK
@@ -215,18 +219,40 @@ def main(page: ft.Page):
     animating     = False
     qr_frames_b64 = []
 
-    def animate_qr():
+    def animate_qr(max_loops: int = 3):
         nonlocal animating
         if animating or not qr_frames_b64:
             return
-        animating = True
-        idx = 0
+        animating  = True
+        idx        = 0
+        loops_done = 0
+        total      = len(qr_frames_b64)
+
         while animating and qr_frames_b64:
             qr_image_control.src_base64 = qr_frames_b64[idx]
-            qr_counter_text.value = f"{idx + 1} / {len(qr_frames_b64)}"
+            qr_counter_text.value = (
+                f"{idx + 1} / {total}  "
+                f"(ciclo {loops_done + 1}/{max_loops})"
+            )
             page.update()
-            idx = (idx + 1) % len(qr_frames_b64)
+
+            idx += 1
+            if idx >= total:          # completó un ciclo completo
+                idx = 0
+                loops_done += 1
+                if loops_done >= max_loops:
+                    break             # salir como GIF que terminó sus repeticiones
+
             time.sleep(0.15)
+
+        # Al terminar: congelar en primer frame y liberar el flag
+        animating = False
+        if qr_frames_b64:
+            qr_image_control.src_base64 = qr_frames_b64[0]
+            qr_counter_text.value = (
+                f"✓ {total} frames  ({max_loops} ciclos completados)"
+            )
+            page.update()
 
     def stop_animating():
         nonlocal animating
@@ -289,6 +315,7 @@ def main(page: ft.Page):
 
         threading.Thread(target=_scan, daemon=True).start()
 
+    jls_extract_var = text
     qr_view = ft.Column(
         controls=[
             ft.Text(
@@ -298,9 +325,9 @@ def main(page: ft.Page):
                 size=20
             ),
             ft.Divider(color=ACCENT_COLOR),
-            ft.Text("Emitir Archivo 📤", color=ft.Colors.WHITE),
+            ft.jls_extract_def(Text)("Emitir Archivo 📤", color=ft.Colors.WHITE),
             ft.FilledButton(
-                text="Seleccionar y Emitir",
+                jls_extract_var="Seleccionar y Emitir",
                 icon=ft.Icons.UPLOAD_FILE,
                 on_click=lambda _: file_picker.pick_files()
             ),
