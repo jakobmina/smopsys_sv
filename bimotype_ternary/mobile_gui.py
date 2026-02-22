@@ -132,7 +132,7 @@ def main(page: ft.Page):
             align  = ft.MainAxisAlignment.END if is_user else ft.MainAxisAlignment.START
             color  = ACCENT_COLOR if is_user else ft.Colors.WHITE
             bg     = "#1a1f29"    if is_user else SURFACE_COLOR
-            border = ft.border.all(1, ACCENT_COLOR) if is_user else None
+            border = ft.Border.all(1, ACCENT_COLOR) if is_user else None
 
             chat_list.controls.append(
                 ft.Row([
@@ -183,14 +183,14 @@ def main(page: ft.Page):
                 bgcolor=SURFACE_COLOR,
                 padding=10,
                 border_radius=5,
-                border=ft.border.all(1, ACCENT_COLOR)
+                border=ft.Border.all(1, ACCENT_COLOR)
             ),
             handshake_column,
             target_fp_input,
             ft.Container(
                 content=chat_list,
                 expand=True,
-                border=ft.border.all(1, ft.Colors.BLUE_GREY_800),
+                border=ft.Border.all(1, ft.Colors.BLUE_GREY_800),
                 border_radius=5,
                 padding=5
             ),
@@ -209,7 +209,7 @@ def main(page: ft.Page):
 
     # ── Tab 2: QR Offline ─────────────────────────────────────────────────────
 
-    qr_image_control = ft.Image(src="", width=300, height=300, fit=ft.ImageFit.CONTAIN)
+    qr_image_control = ft.Image(src="", width=300, height=300, fit=ft.BoxFit.CONTAIN)
     qr_counter_text  = ft.Text("0 / 0", color=ACCENT_COLOR)
 
     animating     = False
